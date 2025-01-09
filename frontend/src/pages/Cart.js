@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import CartContext from '../context/CartContext';
+import { List, ListItem, ListItemText, Button } from '@mui/material';
 
 function Cart() {
   const { state, dispatch } = useContext(CartContext);
@@ -9,19 +10,20 @@ function Cart() {
   };
 
   return (
-    <div className="container">
-      <h1 className="text-center my-4">Shopping Cart</h1>
+    <div style={{ padding: '20px' }}>
+      <Typography variant="h4" gutterBottom>Shopping Cart</Typography>
       {state.items.length > 0 ? (
-        <div className="list-group">
+        <List>
           {state.items.map(item => (
-            <div key={item._id} className="list-group-item d-flex justify-content-between align-items-center">
-              <span>{item.name}</span>
-              <button className="btn btn-danger btn-sm" onClick={() => handleRemove(item)}>Remove</button>
-            </div>
+            <ListItem key={item._id} secondaryAction={
+              <Button variant="contained" color="secondary" onClick={() => handleRemove(item)}>Remove</Button>
+            }>
+              <ListItemText primary={item.name} />
+            </ListItem>
           ))}
-        </div>
+        </List>
       ) : (
-        <p className="text-center">Your cart is empty.</p>
+        <Typography variant="body1">Your cart is empty.</Typography>
       )}
     </div>
   );

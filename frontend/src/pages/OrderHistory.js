@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axiosInstance from '../utils/axiosInstance';
 import AuthContext from '../context/AuthContext';
+import { Card, CardContent, Typography, Grid } from '@mui/material';
 
 function OrderHistory() {
   const { state } = useContext(AuthContext);
@@ -19,20 +20,24 @@ function OrderHistory() {
   }, [state.isAuthenticated, state.user.token]);
 
   return (
-    <div className="container">
-      <h1 className="text-center my-4">Order History</h1>
+    <div style={{ padding: '20px' }}>
+      <Typography variant="h4" gutterBottom>Order History</Typography>
       {orders.length > 0 ? (
-        orders.map(order => (
-          <div key={order._id} className="card mb-3">
-            <div className="card-body">
-              <h5 className="card-title">Order #{order._id}</h5>
-              <p className="card-text">Date: {order.date}</p>
-              <p className="card-text">Total: ${order.total}</p>
-            </div>
-          </div>
-        ))
+        <Grid container spacing={3}>
+          {orders.map(order => (
+            <Grid item xs={12} key={order._id}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h5">Order #{order._id}</Typography>
+                  <Typography variant="body2">Date: {order.date}</Typography>
+                  <Typography variant="h6">Total: ${order.total}</Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+        </Grid>
       ) : (
-        <p className="text-center">No orders found.</p>
+        <Typography variant="body1">No orders found.</Typography>
       )}
     </div>
   );
